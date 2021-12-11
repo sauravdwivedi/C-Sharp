@@ -12,3 +12,7 @@ I write code to solve problems from:
 > % mcs <file_name>.cs
 
 > % mono <file_name>.exe
+
+## Style guide
+
+> https://google.github.io/styleguide/csharp-style.html
