@@ -1,18 +1,28 @@
 # A collection of C# programms I wrote for practice
 
-Program/problem description is given as doc comment on top of each program.
+## Project description
 
-I write code to solve problems from:
+A collection of coding challenge solutions written in C#. Coding challenge description is given as _doc comments_ on top of each program. I write codes to solve problems from:
 
 - https://www.hackerrank.com/
 - https://code-exercises.com/
 
-## How to compile/run
+## Execution
 
-> % mcs <file_name>.cs
+### Clone repository  
 
-> % mono <file_name>.exe
+```bash
+$ gh repo clone sauravdwivedi/C-Sharp
+```
 
-## Style guide
+### Run code
 
-> https://google.github.io/styleguide/csharp-style.html
+```bash
+$ cd C-Sharp
+$ mcs <script_name>.cs
+$ mono <script_name>.exe
+```
+
+### C# Style guide
+
+- https://google.github.io/styleguide/csharp-style.html

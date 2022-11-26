@@ -1,4 +1,5 @@
-/**Write a method to read two matrices from StdIn and print
+/**
+ * Write a method to read two integer matrices from StdIn and print
  * their product matrix.
  */  
 
@@ -8,19 +9,42 @@ using System.Linq;
 using System.Collections.Generic;
 
 class Matrix {
-  public int[,] Multiply(
-    int[,] matA, 
-    int[,] matB, 
-    int matARows, 
-    int matACols, 
-    int matBCols
-    ) {
-    int[,] prodMat = new int[matARows, matBCols];
-    for (int i = 0; i < matARows; i++) {
-      for (int j = 0; j < matBCols; j++) {
+  private String _name;
+  private int _rows;
+  private int _cols;
+  private int[,] _matrix;
+
+  void SetMatrix() {
+    try {
+      Console.WriteLine($"Matrix {this._name} rows: ");
+      int rows = Convert.ToInt32(Console.ReadLine().Trim());
+      Console.WriteLine($"Matrix {this._name} columns: ");
+      int cols = Convert.ToInt32(Console.ReadLine().Trim());
+      Console.WriteLine($"Space separated Matrix {this._name} entries (e.g. '1 2 3'): ");
+      int[] matRaw = Console.ReadLine().Trim().Split(" ").ToArray().
+        Select(arrTemp => Convert.ToInt32(arrTemp)).ToArray();
+      int[,] mat = new int[rows, cols];
+      for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+          mat[i, j] = matRaw[i*cols + j];
+        }
+      }
+      this._rows = rows;
+      this._cols = cols;
+      this._matrix = mat;
+    } catch (Exception e) {
+      Console.WriteLine("Caught an error. Please try again! " + e.Message);
+      this.SetMatrix();
+    }
+  }
+  
+  static int[,] Multiply(Matrix matA, Matrix matB) {
+    int[,] prodMat = new int[matA._rows, matB._cols];
+    for (int i = 0; i < matA._rows; i++) {
+      for (int j = 0; j < matB._cols; j++) {
         int prodMatIJ = 0;
-        for (int k = 0; k < matACols; k++) {
-          prodMatIJ += matA[i, k] * matB[k, j];
+        for (int k = 0; k < matA._cols; k++) {
+          prodMatIJ += matA._matrix[i, k] * matB._matrix[k, j];
         }
         prodMat[i, j] = prodMatIJ;
       }
@@ -29,47 +53,22 @@ class Matrix {
   }
   
   public static void Main(string[] args) {
-    Console.WriteLine("Matrix A rows: ");
-    int matARows = Convert.ToInt32(Console.ReadLine().Trim());
-    Console.WriteLine("Matrix A columns: ");
-    int matACols = Convert.ToInt32(Console.ReadLine().Trim());
-    Console.WriteLine("Space separated Matrix A entries (e.g. '1 2 3'): ");
-    int[] matARaw = Console.ReadLine().Trim().Split(" ").ToArray().
-      Select(arrTemp => Convert.ToInt32(arrTemp)).ToArray();
-    int[,] matA = new int[matARows, matACols];
-    for (int i = 0; i < matARows; i++) {
-      for (int j = 0; j < matACols; j++) {
-        matA[i, j] = matARaw[i*matACols + j];
-      }
-    }
-    Console.WriteLine("Matrix B rows: ");
-    int matBRows = Convert.ToInt32(Console.ReadLine().Trim());
-    Console.WriteLine("Matrix B columns: ");
-    int matBCols = Convert.ToInt32(Console.ReadLine().Trim());
-    Console.WriteLine("Space separated Matrix B entries (e.g. '4 5 6'): ");
-    int[] matBRaw = Console.ReadLine().Trim().Split(" ").ToArray().
-      Select(arrTemp => Convert.ToInt32(arrTemp)).ToArray();
-    int[,] matB = new int[matBRows, matBCols];
-    for (int i = 0; i < matBRows; i++) {
-      for (int j = 0; j < matBCols; j++) {
-        matB[i, j] = matBRaw[i*matBCols + j];
-      }
-    }
-    Matrix obj = new Matrix();
-    if (matACols == matBRows) {
-      int[,] prodMat = obj.Multiply(matA, matB, matARows, matACols, matBCols);
+    Matrix matA = new Matrix{_name="A"};
+    matA.SetMatrix();
+    Matrix matB = new Matrix{_name="B"};
+    matB.SetMatrix();
+    if (matA._cols == matB._rows) {
+      int[,] prodMat = Multiply(matA, matB);
       Console.WriteLine("The product Matrix is: ");
-      for (int i = 0; i < matARows; i++) {
+      for (int i = 0; i < matA._rows; i++) {
         string row = "";
-        for (int j = 0; j < matBCols; j++) {
+        for (int j = 0; j < matB._cols; j++) {
           row += prodMat[i, j].ToString() + " ";
         }
-        Console.WriteLine(row);
+        Console.WriteLine("\t" + row);
       }
     } else {
       Console.WriteLine("Matrices can't be multiplied!");
     }
   }
 }
-
-
