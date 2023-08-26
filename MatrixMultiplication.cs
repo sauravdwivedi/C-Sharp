@@ -51,10 +51,22 @@ class Matrix
       this.SetMatrix();
     }
   }
-
-  // Class method to multiply two matrices 
   static int[,] Multiply(Matrix matA, Matrix matB)
   {
+    /**
+    * Function multiplies two matrices given col_A == rows_B.
+    *
+    * Args:
+    *     matA (matrix): Matrix A.
+    *     matB (matrix): Matrix B.
+    *
+    * Raises:
+    *     None.
+    *
+    * Returns:
+    *     prodMat (matrix): Product of Matrix A and Matrix B.
+    */
+
     int[,] prodMat = new int[matA._rows, matB._cols];
     for (int i = 0; i < matA._rows; i++)
     {
